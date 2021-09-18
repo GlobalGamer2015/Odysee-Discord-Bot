@@ -1,0 +1,6 @@
+{
+    "mongoURI": "IP_Address:27017",
+    "mongoUser": "Username",
+    "mongoPass": "Password",
+    "bot_token": "Your_Discord_Bot_Token"
+}
