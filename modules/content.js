@@ -57,7 +57,9 @@ module.exports = function(bot) {
                                                     if(database_name === `discord_${Guild_Id}`) {
                                                         var dbo = db.db(database_name);
                                                         dbo.collection("users").findOne({claimId: publisherId}, function(err, user) {
-                                                            if(err) throw err;
+                                                            if(err) {
+                                                                console.log(err)
+                                                            }
 
                                                             if(user) {
                                                                 if(content_type.startsWith("image/")) {

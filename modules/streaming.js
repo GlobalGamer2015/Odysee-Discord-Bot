@@ -46,7 +46,9 @@ module.exports = function(bot) {
                                                     if(channel.data.live === false) {
                                                         if(user.live === true) {
                                                             dbo.collection("users").updateOne({claimId: claim_id}, { $set: {live: false} }, function(err, res) {
-                                                                if(err) throw err;
+                                                                if(err) {
+                                                                    console.log(err)
+                                                                }
                                                             })
                                                         }
                                                     }
@@ -67,11 +69,15 @@ module.exports = function(bot) {
                                                                     const stream_url = channelLink+'/'+stream_name;
                                                                         
                                                                     dbo.collection("users").updateOne({claimId: claim_id}, {$set: { live: true }}, function(err, res) {
-                                                                        if(err) throw err;
+                                                                        if(err) {
+                                                                            console.log(err)
+                                                                        }
                                                                     })
                                                                     
                                                                     dbo.collection("users").findOne({claimId: claim_id}, function(err, user) {
-                                                                        if(err) throw err;
+                                                                        if(err) {
+                                                                            console.log(err)
+                                                                        }
 
                                                                         if(user) {
                                                                             const Embed = new Discord.MessageEmbed()

@@ -50,7 +50,7 @@ module.exports = function(bot) {
 								// Dont announce error
 							}
 							else {
-								throw err;
+								console.log(err);
 							}
 						}
                     });
