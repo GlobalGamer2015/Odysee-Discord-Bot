@@ -14,12 +14,6 @@ module.exports = function(bot) {
     const url = f(`mongodb://${config_data.mongoUser}:${config_data.mongoPass}@${config_data.mongoURI}?authSource=admin`)
     
     MongoClient.connect(url, function(err, db) {
-        sockety = new WS(`wss://sockety.odysee.com/ws/blockchain?id=newclaim`);
-        sockety.addEventListener('message', function(event) {
-            const data = JSON.parse(event.data)
-            console.log(data)
-        })
-
         socket = new WS(`wss://sockety.odysee.com/ws/blockchain?id=claims`);
 
         socket.addEventListener('message', function (event) {
