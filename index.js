@@ -22,6 +22,7 @@ const options = {
 };
 mongoose.connect(mongoURI, options);
 
+let isConnected = false;
 function ConnectToDiscord() {
   const { Client, Intents, MessageEmbed } = require('discord.js');
   const bot = new Client({
@@ -84,12 +85,14 @@ function ConnectToDiscord() {
 // Check if connected to database, if not then try again.
 if(mongoose.connection.readyState !== 1) {
   setInterval(() => {
-    if(mongoose.connection.readyState === 1) {
+    if(mongoose.connection.readyState === 1 && isConnected === false) {
       ConnectToDiscord();
+      isConnected = true;
     }
   },30000);
 }
 // If connected to database then connect
 else if(mongoose.connection.readyState === 1) {
   ConnectToDiscord();
+  isConnected = true;
 }
