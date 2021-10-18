@@ -36,7 +36,11 @@ module.exports = function(bot) {
 
                     if(data.data.claim.height >= 1) {
                         if(content_type !== null) {
-                            Lbry.claim_search({claim_id: publisherId}).then(claim => {
+                            Lbry.claim_search({claim_id: publisherId})
+                            .catch(e => {
+                                console.log(e)
+                            })
+                            .then(claim => {
                                 if(claim.items[0]) {
                                     Guild.find({},(err,guilds)=> {
                                         if(err) {
