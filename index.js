@@ -1,6 +1,17 @@
 config_data = require('./config/config.json');
 const prefix = "odysee";
 
+const winston = require('winston');
+const logger = winston.createLogger({
+    level: 'info',
+    format: winston.format.json(),
+    defaultMeta: { service: 'user-service' },
+    transports: [
+        new winston.transports.File({ filename: 'logs/error.log', level: 'error' }),
+        new winston.transports.File({ filename: 'logs/combined.log' }),
+    ],
+});
+
 const mongoose = require('mongoose');
 const mongoURI = `mongodb://${config_data.mongoUser}:${config_data.mongoPass}@${config_data.mongoURI}/database?authSource=admin`;
 const options = {
@@ -31,37 +42,37 @@ bot.on("ready", () => {
 });
 
 // Modules
-const guildCreate = require('./modules/guildCreate')(bot)
-const guildDelete = require('./modules/guildDelete')(bot)
-const streaming = require('./modules/streaming')(bot)
-const content = require('./modules/content')(bot)
+const guildCreate = require('./modules/guildCreate')(bot, logger)
+const guildDelete = require('./modules/guildDelete')(bot, logger)
+const streaming = require('./modules/streaming')(bot, logger)
+const content = require('./modules/content')(bot, logger)
 
 bot.on("messageCreate", (msg) => {
 	if(msg.author.bot) return;
 
     // Help command
-    help = require('./commands/help')(msg,prefix,MessageEmbed);
+    help = require('./commands/help')(msg, prefix, MessageEmbed);
 
     // Invite
     invite = require('./commands/invite')(msg,prefix);
 
     // Stats
-    stats = require('./commands/stats')(msg,prefix,MessageEmbed,bot);
+    stats = require('./commands/stats')(msg, prefix, MessageEmbed, bot, logger);
 
     // Channel
-    channel = require('./commands/channel')(msg,prefix,MessageEmbed);
+    channel = require('./commands/channel')(msg, prefix, MessageEmbed, logger);
 
     // Claim
-    claim = require('./commands/claim')(msg,prefix,MessageEmbed)
+    claim = require('./commands/claim')(msg, prefix, MessageEmbed, logger)
 
     // Notify
-    notify = require('./commands/notify')(msg,prefix,bot)
+    notify = require('./commands/notify')(msg, prefix, bot, logger)
 
     // User
-    user = require('./commands/user')(msg,prefix)
+    user = require('./commands/user')(msg, prefix, logger)
 
     // Search
-    search = require('./commands/search')(msg,prefix,MessageEmbed)
+    search = require('./commands/search')(msg, prefix, MessageEmbed, logger)
 });
 
 bot.login(config_data.bot_token);

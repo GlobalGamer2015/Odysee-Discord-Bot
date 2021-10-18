@@ -1,10 +1,13 @@
 const Lbry = require('lbry-sdk-nodejs/lib/sdk');
 
-module.exports = function(msg,prefix,MessageEmbed) {
+module.exports = function(msg, prefix, MessageEmbed, logger) {
 	if(msg.content.startsWith(`${prefix} claim`)) {
         const claim_id = msg.content.replace(`${prefix} claim `, '').split(" ");
 
         Lbry.Lbry.claim_search({claim_id: claim_id})
+        .catch(err => {
+            logger.error(`Date: ${Date.now()}\nCL: 7\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
+        })
         .then(claim => {
             try {
                 if(claim.items[0].short_url !== claim.items[0].canonical_url) {
@@ -20,8 +23,8 @@ module.exports = function(msg,prefix,MessageEmbed) {
                     msg.channel.send(`${claim_id} is a channel, please use the channel command.`);
                 }
             }
-            catch(e) {
-                console.log(e)
+            catch(err) {
+                console.log(err)
             }
         })
     }

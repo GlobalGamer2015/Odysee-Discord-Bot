@@ -1,7 +1,7 @@
 const { Lbry } = require('lbry-sdk-nodejs/lib/sdk');
 const fetch = require('node-fetch');
 
-module.exports = function(msg,prefix,MessageEmbed) {
+module.exports = function(msg, prefix, MessageEmbed, logger) {
     let finished_results_claimInfo_arr = [];
     let search_results_claimId_arr = [];
 
@@ -22,6 +22,10 @@ module.exports = function(msg,prefix,MessageEmbed) {
             })
 
             Lbry.claim_search({claim_ids: [ search_results_claimId_arr[0].claim_id,search_results_claimId_arr[1].claim_id,search_results_claimId_arr[2].claim_id ]})
+            .catch(err => {
+                console.log(err)
+                logger.error(`Date: ${Date.now()}\nCL: 24\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
+            })
             .then(claimId_info => {
                 const claim_0 = { url: claimId_info.items[0].canonical_url, claim_id: claimId_info.items[0].claim_id, name: claimId_info.items[0].name };
                 const claim_1 = { url: claimId_info.items[1].canonical_url, claim_id: claimId_info.items[1].claim_id, name: claimId_info.items[1].name };

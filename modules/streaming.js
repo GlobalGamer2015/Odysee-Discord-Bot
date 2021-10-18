@@ -3,7 +3,7 @@ const Guild = require('./../models/guild');
 const Discord = require('discord.js');
 config_data = require('./../config/config.json')
 
-module.exports = function(bot) {
+module.exports = function(bot, logger) {
 
     const MongoClient = require('mongodb').MongoClient,
     f = require('util').format;

@@ -1,7 +1,7 @@
 const Guild = require('./../models/guild');
 config_data = require('./../config/config.json')
 
-module.exports = function(bot) {
+module.exports = function(bot, logger) {
     bot.on("guildCreate", (guild) => {
 		const name = guild.name;
 		const id = guild.id;

@@ -6,7 +6,7 @@ const WS = require('ws');
 
 const blockchain_data = require('./../blockchain_data/data')
 
-module.exports = function(bot) {
+module.exports = function(bot, logger) {
 
     const MongoClient = require('mongodb').MongoClient,
     f = require('util').format;

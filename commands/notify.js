@@ -1,6 +1,6 @@
 const Guild = require('./../models/guild');
 
-module.exports = function(msg,prefix,bot) {
+module.exports = function(msg, prefix, bot, logger) {
 	if(msg.content.startsWith(`${prefix} notify stream`)) {
         if(msg.member.roles.cache.some(role => role.name === 'Owner') || msg.member.roles.cache.some(role => role.name === 'Admin')) {
             const notification_stream_channel = msg.content.replace(`${prefix} notify stream `, '');
@@ -8,6 +8,7 @@ module.exports = function(msg,prefix,bot) {
             Guild.find({},(err,guilds)=> {
                 if(err) {
                     console.log(err)
+                    logger.error(`Date: ${Date.now()}\nCL: 8\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
                 }
                 guilds.forEach(function(guild){
                     if(guild.id === msg.channel.guild.id) {

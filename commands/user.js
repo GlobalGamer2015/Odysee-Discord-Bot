@@ -1,12 +1,16 @@
 config_data = require('./../config/config.json')
 
-module.exports = function(msg,prefix) {
+module.exports = function(msg, prefix, logger) {
     const MongoClient = require('mongodb').MongoClient,
     f = require('util').format;
 
     var url = f(`mongodb://${config_data.mongoUser}:${config_data.mongoPass}@${config_data.mongoURI}?authSource=admin`)
 
     MongoClient.connect(url, function(err, db) {
+        if(err) {
+            console.log(err)
+            logger.error(`Date: ${Date.now()}\nCL: 9\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
+        }
 	    if(msg.content.startsWith(`${prefix} user`)) {
             if(msg.content.startsWith(`${prefix} user add`)) {
                 if(msg.content.startsWith("odysee add add")) {
@@ -17,12 +21,11 @@ module.exports = function(msg,prefix) {
                     const guild_id = msg.channel.guild.id;
 
                     claim_ids.forEach(function(claimId) {
-                        if (err) throw err;
-        
                         var dbo = db.db(`discord_${guild_id}`);
                         dbo.collection("users").findOne({claimId:new RegExp('^' + claimId + '$', "i")}, function(err, user) {
                             if(err) {
                                 console.log(err)
+                                logger.error(`Date: ${Date.now()}\nCL: 25\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
                             }
                             if(user) {
                                 if(user.disabled === true) {
@@ -54,6 +57,7 @@ module.exports = function(msg,prefix) {
                     dbo.collection("users").find({}).toArray(function(err, users) {
                         if(err) {
                             console.log(err)
+                            logger.error(`Date: ${Date.now()}\nCL: 57\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
                         }
 
                         if(users.length >= 1) {
@@ -62,7 +66,10 @@ module.exports = function(msg,prefix) {
                             users.forEach(user => {
                                 const claimId = user.claimId;
                                 dbo.collection("users").deleteOne({ claimId: claimId }, function(err, res) {
-                                    if(err) throw err;
+                                    if(err) {
+                                        console.log(err)
+                                        logger.error(`Date: ${Date.now()}\nCL: 68\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
+                                    }
                                 })
                             })
                             msg.channel.send(`Your claim id database is wiped.`)
@@ -83,17 +90,23 @@ module.exports = function(msg,prefix) {
                 const guild_id = msg.channel.guild.id;
 
                 claim_ids.forEach(function(claimId) {
-                    if (err) throw err;
+                    if (err) {
+
+                    }
         
                     var dbo = db.db(`discord_${guild_id}`);
                     dbo.collection("users").findOne({claimId:new RegExp('^' + claimId + '$', "i")}, function(err, user) {
                         if(err) {
                             console.log(err)
+                            logger.error(`Date: ${Date.now()}\nCL: 98\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
                         }
                         if(user) {
                             if(user.disabled === false) {
                                 dbo.collection("users").updateOne({ claimId: claimId }, { $set: { disabled: true } }, function(err, res) {
-                                    if(err) throw err;
+                                    if(err) {
+                                        console.log(err)
+                                        logger.error(`Date: ${Date.now()}\nCL: 105\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
+                                    }
                                     msg.channel.send(`${claimId} has been removed.`)
                                 })
                             }
@@ -115,6 +128,7 @@ module.exports = function(msg,prefix) {
                 dbo.collection("users").find({}).toArray(function(err, users) {
                     if(err) {
                         console.log(err)
+                        logger.error(`Date: ${Date.now()}\nCL: 128\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
                     }
 
                     if(users.length >= 1) {
