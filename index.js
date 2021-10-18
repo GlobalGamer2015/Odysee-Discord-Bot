@@ -1,5 +1,5 @@
-config_data = require('./config/config.json');
-const prefix = "odysee";
+const config_data = require('./config/config.json');
+const prefix = 'odysee';
 
 const winston = require('winston');
 const logger = winston.createLogger({
@@ -15,14 +15,14 @@ const logger = winston.createLogger({
 const mongoose = require('mongoose');
 const mongoURI = `mongodb://${config_data.mongoUser}:${config_data.mongoPass}@${config_data.mongoURI}/database?authSource=admin`;
 const options = {
-    keepAlive: "true",
-    keepAliveInitialDelay: "300000",
-    useNewUrlParser: "true",
+    keepAlive: 'true',
+    keepAliveInitialDelay: '300000',
+    useNewUrlParser: 'true',
 	useUnifiedTopology: true
 };
 mongoose.connect(mongoURI, options);
 
-const { Client, Intents, MessageEmbed } = require("discord.js");
+const { Client, Intents, MessageEmbed } = require('discord.js');
 const bot = new Client({
 	forceFetchUsers: true,
 	autoReconnect: true,
@@ -37,15 +37,15 @@ const bot = new Client({
     },
 });
 
-bot.on("ready", () => {
-	console.log(`Discord Bot Connected`)
+bot.on('ready', () => {
+	console.log('Discord Bot Connected');
 });
 
 // Modules
-const guildCreate = require('./modules/guildCreate')(bot, logger)
-const guildDelete = require('./modules/guildDelete')(bot, logger)
-const streaming = require('./modules/streaming')(bot, logger)
-const content = require('./modules/content')(bot, logger)
+const guildCreate = require('./modules/guildCreate')(bot, logger);
+const guildDelete = require('./modules/guildDelete')(bot, logger);
+const streaming = require('./modules/streaming')(bot, logger);
+const content = require('./modules/content')(bot, logger);
 
 bot.on("messageCreate", (msg) => {
 	if(msg.author.bot) return;
@@ -63,16 +63,16 @@ bot.on("messageCreate", (msg) => {
     channel = require('./commands/channel')(msg, prefix, MessageEmbed, logger);
 
     // Claim
-    claim = require('./commands/claim')(msg, prefix, MessageEmbed, logger)
+    claim = require('./commands/claim')(msg, prefix, MessageEmbed, logger);
 
     // Notify
-    notify = require('./commands/notify')(msg, prefix, bot, logger)
+    notify = require('./commands/notify')(msg, prefix, bot, logger);
 
     // User
-    user = require('./commands/user')(msg, prefix, logger)
+    user = require('./commands/user')(msg, prefix, logger);
 
     // Search
-    search = require('./commands/search')(msg, prefix, MessageEmbed, logger)
+    search = require('./commands/search')(msg, prefix, MessageEmbed, logger);
 });
 
 bot.login(config_data.bot_token);

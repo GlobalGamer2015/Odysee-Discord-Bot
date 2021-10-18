@@ -11,7 +11,7 @@ module.exports = {
     },
     "rules": {
         "semi": ["error", "always"],
-        "quotes": ["error", "single"],
+        "quotes": ["warn", "single"],
         "spaced-comment": ["error", "always"],
         "eol-last": ["error", "always"],
         "no-undef": ["warn"],
