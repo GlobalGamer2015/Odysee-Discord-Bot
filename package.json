@@ -4,12 +4,13 @@
   "description": "Odysee discord bot",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "eslint": "./node_modules/.bin/eslint"
   },
   "author": "gg2015",
   "license": "MIT",
   "dependencies": {
     "discord.js": "^13.1.0",
+    "eslint": "^8.0.1",
     "lbry-sdk-nodejs": "^0.101.0",
     "mongodb": "^4.1.1",
     "mongoose": "^6.0.5",
