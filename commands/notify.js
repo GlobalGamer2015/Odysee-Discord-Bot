@@ -53,9 +53,10 @@ module.exports = function(msg, prefix, bot, logger) {
                             })
                             msg.channel.send('Content notifications channel has been updated.')
                         }
-                        catch(e) {
+                        catch(err) {
                             msg.channel.send(`Channel "${notification_content_channel}" not found, are you sure that is correct?`)
-                            console.log(e)
+                            console.log(err)
+                            logger.error(`Date: ${Date.now()}\nCL: 46\nCatch Error Message: ${err.message}\n`)
                         }
                     }
                 })

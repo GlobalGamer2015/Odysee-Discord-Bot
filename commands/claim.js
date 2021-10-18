@@ -25,6 +25,7 @@ module.exports = function(msg, prefix, MessageEmbed, logger) {
             }
             catch(err) {
                 console.log(err)
+                logger.error(`Date: ${Date.now()}\nCL: 12\nCatch Error Message: ${err.message}\n`)
             }
         })
     }

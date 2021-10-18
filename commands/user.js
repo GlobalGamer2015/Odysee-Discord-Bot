@@ -40,7 +40,9 @@ module.exports = function(msg, prefix, logger) {
                             }
                             else if(!user) {
                                 dbo.collection("users").insertOne({ claimId: claimId, live: false, disabled: false, blacklisted: false }, function(err, res) {
-                                    if(err) throw err;
+                                    if(err) {
+                                        logger.error(`Date: ${Date.now()}\nCL: 42\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
+                                    }
                                     msg.channel.send(`${claimId} has been added.`)
                                 })
                             }
@@ -57,7 +59,7 @@ module.exports = function(msg, prefix, logger) {
                     dbo.collection("users").find({}).toArray(function(err, users) {
                         if(err) {
                             console.log(err)
-                            logger.error(`Date: ${Date.now()}\nCL: 57\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
+                            logger.error(`Date: ${Date.now()}\nCL: 59\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
                         }
 
                         if(users.length >= 1) {
@@ -68,7 +70,7 @@ module.exports = function(msg, prefix, logger) {
                                 dbo.collection("users").deleteOne({ claimId: claimId }, function(err, res) {
                                     if(err) {
                                         console.log(err)
-                                        logger.error(`Date: ${Date.now()}\nCL: 68\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
+                                        logger.error(`Date: ${Date.now()}\nCL: 70\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
                                     }
                                 })
                             })
@@ -90,22 +92,18 @@ module.exports = function(msg, prefix, logger) {
                 const guild_id = msg.channel.guild.id;
 
                 claim_ids.forEach(function(claimId) {
-                    if (err) {
-
-                    }
-        
                     var dbo = db.db(`discord_${guild_id}`);
                     dbo.collection("users").findOne({claimId:new RegExp('^' + claimId + '$', "i")}, function(err, user) {
                         if(err) {
                             console.log(err)
-                            logger.error(`Date: ${Date.now()}\nCL: 98\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
+                            logger.error(`Date: ${Date.now()}\nCL: 96\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
                         }
                         if(user) {
                             if(user.disabled === false) {
                                 dbo.collection("users").updateOne({ claimId: claimId }, { $set: { disabled: true } }, function(err, res) {
                                     if(err) {
                                         console.log(err)
-                                        logger.error(`Date: ${Date.now()}\nCL: 105\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
+                                        logger.error(`Date: ${Date.now()}\nCL: 103\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
                                     }
                                     msg.channel.send(`${claimId} has been removed.`)
                                 })
@@ -128,7 +126,7 @@ module.exports = function(msg, prefix, logger) {
                 dbo.collection("users").find({}).toArray(function(err, users) {
                     if(err) {
                         console.log(err)
-                        logger.error(`Date: ${Date.now()}\nCL: 128\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
+                        logger.error(`Date: ${Date.now()}\nCL: 126\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
                     }
 
                     if(users.length >= 1) {

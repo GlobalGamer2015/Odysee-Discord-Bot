@@ -37,14 +37,16 @@ module.exports = function(bot, logger) {
                     if(data.data.claim.height >= 1) {
                         if(content_type !== null) {
                             Lbry.claim_search({claim_id: publisherId})
-                            .catch(e => {
-                                console.log(e)
+                            .catch(err => {
+                                console.log(err)
+                                logger.error(`Date: ${Date.now()}\nCL: 39\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
                             })
                             .then(claim => {
                                 if(claim.items[0]) {
                                     Guild.find({},(err,guilds)=> {
                                         if(err) {
                                             console.log(err)
+                                            logger.error(`Date: ${Date.now()}\nCL: 46\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
                                         }
                                         guilds.forEach(function(guild){
                                             const Guild_Id = guild.id;
@@ -57,6 +59,7 @@ module.exports = function(bot, logger) {
                                                         dbo.collection("users").findOne({claimId: publisherId}, function(err, user) {
                                                             if(err) {
                                                                 console.log(err)
+                                                                logger.error(`Date: ${Date.now()}\nCL: 59\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
                                                             }
 
                                                             if(user) {
@@ -124,8 +127,8 @@ module.exports = function(bot, logger) {
                     }
                 }
             }
-            catch(error) {
-                
+            catch(err) {
+                logger.error(`Date: ${Date.now()}\nCL: 20\nCatch Error Message: ${err.message}\n`)
             }
         });
     })

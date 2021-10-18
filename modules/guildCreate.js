@@ -12,11 +12,15 @@ module.exports = function(bot, logger) {
     	var url = f(`mongodb://${config_data.mongoUser}:${config_data.mongoPass}@${config_data.mongoURI}?authSource=admin`)
 		
 		MongoClient.connect(url, function(err, db) {
-    		if (err) throw err;
+    		if (err) {
+				console.log(err)
+				logger.error(`Date: ${Date.now()}\nCL: 14\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
+			}
 
         	Guild.findOne({id:new RegExp('^' + id + '$', "i")}).exec((err,guild)=> {
             	if(err) {
                 	console.log(err)
+					logger.error(`Date: ${Date.now()}\nCL: 20\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
             	}
             	if(guild) {
                 	if(guild.id === id) {
@@ -24,6 +28,7 @@ module.exports = function(bot, logger) {
                     	guild.save(function (err) {
                         	if(err) {
                             	console.log(err)
+								logger.error(`Date: ${Date.now()}\nCL: 28\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
                         	}
                     	})
                 	}
@@ -41,6 +46,7 @@ module.exports = function(bot, logger) {
                 	insertGuild.save(function (err) {
                     	if(err) {
                         	console.log(err)
+							logger.error(`Date: ${Date.now()}\nCL: 46\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
                     	}
                 	})
 
@@ -51,6 +57,7 @@ module.exports = function(bot, logger) {
 							}
 							else {
 								console.log(err);
+								logger.error(`Date: ${Date.now()}\nCL: 53\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
 							}
 						}
                     });

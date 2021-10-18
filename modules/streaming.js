@@ -11,12 +11,16 @@ module.exports = function(bot, logger) {
     const url = f(`mongodb://${config_data.mongoUser}:${config_data.mongoPass}@${config_data.mongoURI}?authSource=admin`)
     
     MongoClient.connect(url, function(err, db) {
-        if (err) throw err;
+        if(err) {
+            console.log(err)
+            logger.error(`Date: ${Date.now()}\nCL: 13\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
+        }
 
         setInterval(function() {
             Guild.find({},(err,guilds)=> {
                 if(err) {
                     console.log(err)
+                    logger.error(`Date: ${Date.now()}\nCL: 20\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
                 }
                 guilds.forEach(function(guild){
                     const Guild_Id = guild.id;
@@ -30,6 +34,7 @@ module.exports = function(bot, logger) {
                                 dbo.collection("users").find({}).toArray(function(err, users) {
                                     if(err) {
                                         console.log(err)
+                                        logger.error(`Date: ${Date.now()}\nCL: 34\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
                                     }
                                     users.forEach(function(user) {
                                         const claim_id = user.claimId;
@@ -48,6 +53,7 @@ module.exports = function(bot, logger) {
                                                             dbo.collection("users").updateOne({claimId: claim_id}, { $set: {live: false} }, function(err, res) {
                                                                 if(err) {
                                                                     console.log(err)
+                                                                    logger.error(`Date: ${Date.now()}\nCL: 53\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
                                                                 }
                                                             })
                                                         }
@@ -71,12 +77,14 @@ module.exports = function(bot, logger) {
                                                                     dbo.collection("users").updateOne({claimId: claim_id}, {$set: { live: true }}, function(err, res) {
                                                                         if(err) {
                                                                             console.log(err)
+                                                                            logger.error(`Date: ${Date.now()}\nCL: 77\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
                                                                         }
                                                                     })
                                                                     
                                                                     dbo.collection("users").findOne({claimId: claim_id}, function(err, user) {
                                                                         if(err) {
                                                                             console.log(err)
+                                                                            logger.error(`Date: ${Date.now()}\nCL: 84\nError Name: ${err.name}\nError Message: ${err.message}\nError Stack: ${err.stack}\n`)
                                                                         }
 
                                                                         if(user) {
@@ -104,8 +112,9 @@ module.exports = function(bot, logger) {
                                                     }
                                                 })
                                             }
-                                            catch (error) {
-                                                console.log(error)
+                                            catch (err) {
+                                                console.log(err)
+                                                logger.error(`Date: ${Date.now()}\nCL: 42\nCatch Error Message: ${err.message}\n`)
                                             }
                                         }
                                     })
