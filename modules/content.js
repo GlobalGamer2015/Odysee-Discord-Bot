@@ -65,54 +65,58 @@ module.exports = function(bot, logger) {
                                 }
 
                                 if(user) {
-                                  if(content_type.startsWith('image/')) {
-                                    const Embed = new Discord.MessageEmbed()
-                                      .setColor('#4f1c82')
-                                      .setAuthor(`User: ${claim.items[0].name}`, 'https://upload.wikimedia.org/wikipedia/en/thumb/7/7c/Odyssey_logo_1.svg/220px-Odyssey_logo_1.svg.png', `${blockchain_data.url(data,claim)}`)
-                                      .setTitle(`Name: ${blockchain_data.name(data)}\nContent Type: ${blockchain_data.content_type(data)}`)
-                                      .setImage(blockchain_data.thumbnail(data))
-                                      .setTimestamp()
-                                      .addField('\u200B','Hosted by: [Odysee Chatter](https://www.odysee-chatter.com)',true);
-                                    if(guild.disabled === false) {
-                                      if(guild.data.notification_content_channel === '') {
-                                        // Do nothing
+                                  if(user.blacklisted === false) {
+                                    if(user.disabled === false) {
+                                      if(content_type.startsWith('image/')) {
+                                        const Embed = new Discord.MessageEmbed()
+                                          .setColor('#4f1c82')
+                                          .setAuthor(`User: ${claim.items[0].name}`, 'https://upload.wikimedia.org/wikipedia/en/thumb/7/7c/Odyssey_logo_1.svg/220px-Odyssey_logo_1.svg.png', `${blockchain_data.url(data,claim)}`)
+                                          .setTitle(`Name: ${blockchain_data.name(data)}\nContent Type: ${blockchain_data.content_type(data)}`)
+                                          .setImage(blockchain_data.thumbnail(data))
+                                          .setTimestamp()
+                                          .addField('\u200B','Hosted by: [Odysee Chatter](https://www.odysee-chatter.com)',true);
+                                        if(guild.disabled === false) {
+                                          if(guild.data.notification_content_channel === '') {
+                                            // Do nothing
+                                          }
+                                          else {
+                                            bot.channels.cache.get(guild.data.notification_content_channel).send({ embeds: [Embed] });
+                                          }
+                                        }
                                       }
-                                      else {
-                                        bot.channels.cache.get(guild.data.notification_content_channel).send({ embeds: [Embed] });
+                                      if(content_type.startsWith('video/')) {
+                                        const Embed = new Discord.MessageEmbed()
+                                          .setColor('#4f1c82')
+                                          .setAuthor(`User: ${claim.items[0].name}`, 'https://upload.wikimedia.org/wikipedia/en/thumb/7/7c/Odyssey_logo_1.svg/220px-Odyssey_logo_1.svg.png', `${blockchain_data.url(data,claim)}`)
+                                          .setTitle(`Name: ${blockchain_data.name(data)}\nContent Type: ${blockchain_data.content_type(data)}\nDuration: ${blockchain_data.duration(data)}`)
+                                          .setImage(blockchain_data.thumbnail(data))
+                                          .setTimestamp()
+                                          .addField('\u200B','Hosted by: [Odysee Chatter](https://www.odysee-chatter.com)',true);
+                                        if(guild.disabled === false) {
+                                          if(guild.data.notification_content_channel === '') {
+                                            // Do nothing
+                                          }
+                                          else {
+                                            bot.channels.cache.get(guild.data.notification_content_channel).send({ embeds: [Embed] });
+                                          }
+                                        }
                                       }
-                                    }
-                                  }
-                                  if(content_type.startsWith('video/')) {
-                                    const Embed = new Discord.MessageEmbed()
-                                      .setColor('#4f1c82')
-                                      .setAuthor(`User: ${claim.items[0].name}`, 'https://upload.wikimedia.org/wikipedia/en/thumb/7/7c/Odyssey_logo_1.svg/220px-Odyssey_logo_1.svg.png', `${blockchain_data.url(data,claim)}`)
-                                      .setTitle(`Name: ${blockchain_data.name(data)}\nContent Type: ${blockchain_data.content_type(data)}\nDuration: ${blockchain_data.duration(data)}`)
-                                      .setImage(blockchain_data.thumbnail(data))
-                                      .setTimestamp()
-                                      .addField('\u200B','Hosted by: [Odysee Chatter](https://www.odysee-chatter.com)',true);
-                                    if(guild.disabled === false) {
-                                      if(guild.data.notification_content_channel === '') {
-                                        // Do nothing
-                                      }
-                                      else {
-                                        bot.channels.cache.get(guild.data.notification_content_channel).send({ embeds: [Embed] });
-                                      }
-                                    }
-                                  }
-                                  if(content_type.startsWith('text/')) {
-                                    const Embed = new Discord.MessageEmbed()
-                                      .setColor('#4f1c82')
-                                      .setAuthor(`User: ${claim.items[0].name}`, 'https://upload.wikimedia.org/wikipedia/en/thumb/7/7c/Odyssey_logo_1.svg/220px-Odyssey_logo_1.svg.png', `${blockchain_data.url(data,claim)}`)
-                                      .setTitle(`Name: ${blockchain_data.name(data)}\nContent Type: ${blockchain_data.content_type(data)}`)
-                                      .setImage(blockchain_data.thumbnail(data))
-                                      .setTimestamp()
-                                      .addField('\u200B','Hosted by: [Odysee Chatter](https://www.odysee-chatter.com)',true);
-                                    if(guild.disabled === false) {
-                                      if(guild.data.notification_content_channel === '') {
-                                        // Do nothing
-                                      }
-                                      else {
-                                        bot.channels.cache.get(guild.data.notification_content_channel).send({ embeds: [Embed] });
+                                      if(content_type.startsWith('text/')) {
+                                        const Embed = new Discord.MessageEmbed()
+                                          .setColor('#4f1c82')
+                                          .setAuthor(`User: ${claim.items[0].name}`, 'https://upload.wikimedia.org/wikipedia/en/thumb/7/7c/Odyssey_logo_1.svg/220px-Odyssey_logo_1.svg.png', `${blockchain_data.url(data,claim)}`)
+                                          .setTitle(`Name: ${blockchain_data.name(data)}\nContent Type: ${blockchain_data.content_type(data)}`)
+                                          .setImage(blockchain_data.thumbnail(data))
+                                          .setTimestamp()
+                                          .addField('\u200B','Hosted by: [Odysee Chatter](https://www.odysee-chatter.com)',true);
+                                        if(guild.disabled === false) {
+                                          if(guild.data.notification_content_channel === '') {
+                                            // Do nothing
+                                          }
+                                          else {
+                                            bot.channels.cache.get(guild.data.notification_content_channel).send({ embeds: [Embed] });
+                                          }
+                                        }
                                       }
                                     }
                                   }
