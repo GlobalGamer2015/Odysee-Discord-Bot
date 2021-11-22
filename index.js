@@ -1,5 +1,7 @@
 const config_data = require('./config/config.json');
 const prefix = 'odysee';
+const nodeService = require('@rubysown/node-service');
+const systemctl = require('systemctl');
 
 const winston = require('winston');
 const logger = winston.createLogger({
@@ -96,3 +98,13 @@ else if(mongoose.connection.readyState === 1) {
   ConnectToDiscord();
   isConnected = true;
 }
+
+setInterval(() => {
+  // If mongod database crashes due to too many connections, start the database.
+  nodeService.getService('mongod')
+  .then(res => {
+    if(res.service === null) {
+      systemctl.start('mongod');
+    }
+  })
+}, 20000)
