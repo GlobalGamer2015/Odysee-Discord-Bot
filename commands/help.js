@@ -8,7 +8,7 @@ module.exports = function(msg,prefix,MessageEmbed) {
         { name: 'Common Commands', value: '`help` `invite` `stats`', inline: true},
         { name: 'Odysee Commands', value: '`notify` `user` `channel` `claim` `search`', inline: true},
         { name: 'LBRY Foundation Discord', value: 'https://discord.com/invite/SJMUq8EjXB', inline: false},
-        { name: 'Odysee BR Discord', value: 'https://discord.gg/V7c5xukx2g', inline: false}
+        { name: 'Odysee Discord', value: 'https://discord.gg/odysee', inline: false}
       )
       .setTimestamp()
       .addField('\u200B','Hosted by: [Odysee Chatter](https://www.odysee-chatter.com)',false);
